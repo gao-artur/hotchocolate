@@ -100,12 +100,6 @@ export const GlobalStyle = createGlobalStyle`
   p {
     margin-bottom: 20px;
     line-height: 1.667em;
-
-    code {
-      padding: 2px 5px;
-      font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
-      font-size: var(--font-size);
-    }
   }
 
   h1 {
