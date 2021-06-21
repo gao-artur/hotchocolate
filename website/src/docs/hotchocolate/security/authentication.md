@@ -4,7 +4,7 @@ title: Authentication
 
 import { ExampleTabs } from "../../../components/mdx/example-tabs"
 
-Authentication allows us to determine a user's identity. This is of course a prerequisite for authorization, but it also allows us to for example expose a `me` field in our query that uses the `Id` of the authenticated user to fetch his details.
+Authentication allows us to determine a user's identity. This is of course a prerequisite for authorization, but it also allows us to access the authenticated user in our resolvers. This is useful, if we for example want to build a `me` field that fetches details about the authenticated user.
 
 Hot Chocolate fully embraces the authentication capabilities of ASP.NET Core, making it easy to reuse existing authentication configuration and integrating a variety of authentication providers.
 
@@ -12,16 +12,15 @@ Hot Chocolate fully embraces the authentication capabilities of ASP.NET Core, ma
 
 # Setup
 
+Accessing
 Setting up authentication is largly the same as in any other ASP.NET Core application.
-
-## General
 
 In the following example we are using [JWTs](https://jwt.io/introduction), but we could use any other authentication scheme supported by ASP.NET Core.
 
 1. Install the `Microsoft.AspNetCore.Authentication.JwtBearer` package
 
 ```bash
-dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearerAccessing
 ```
 
 2. Register the JWT authentication scheme
@@ -29,7 +28,7 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 ```csharp
 public class Startup
 {
-    public void ConfigureServices(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services)Accessing
     {
         var signingKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes("MySuperSecretKey"));
@@ -74,9 +73,7 @@ public class Startup
 
 TODO: Link to JWT authentication tutorial
 
-## Hot Chocolate
-
-The above takes care of parsing and validating an incoming HTTP request. To make the authentication result available to our resolvers we need to complete some additional, Hot Chocolate specific steps.
+The above takes care of parsing and validating an incoming HTTP request. To make the authentication result available to our resolvers we need to complete some additional, Hot Chocolate specific, steps.
 
 1. Install the `HotChocolate.AspNetCore.Authorization` package
 

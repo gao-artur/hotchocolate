@@ -5,8 +5,8 @@ import { Carousel } from "react-responsive-carousel";
 import styled from "styled-components";
 import { GetIndexPageDataQuery } from "../../graphql-types";
 import { BananaCakePop } from "../components/images/banana-cake-pop";
-import { BlogPostEFMeetsGraphQL } from "../components/images/blog-post-ef-meets-graphql";
 import { BlogPostChilliCreamPlatform } from "../components/images/blog-post-chillicream-platform-11-1";
+import { BlogPostEFMeetsGraphQL } from "../components/images/blog-post-ef-meets-graphql";
 import { BlogPostVersion11 } from "../components/images/blog-post-version-11";
 import { Link } from "../components/misc/link";
 import {
@@ -525,7 +525,7 @@ const ArticleMetadata = styled.div`
   align-items: center;
   margin: 15px 20px 7px;
   font-size: 0.778em;
-  color: #667;
+  color: var(--text-color);
 `;
 
 const ArticleTitle = styled.h1`
@@ -547,7 +547,7 @@ const Logo = styled.div<{ width?: number }>`
   width: ${({ width }) => width || 160}px;
 
   > a > svg {
-    fill: #667;
+    fill: var(--text-color);
     transition: fill 0.2s ease-in-out;
 
     &:hover {
