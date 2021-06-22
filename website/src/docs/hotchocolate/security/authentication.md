@@ -12,15 +12,14 @@ Hot Chocolate fully embraces the authentication capabilities of ASP.NET Core, ma
 
 # Setup
 
-Accessing
 Setting up authentication is largly the same as in any other ASP.NET Core application.
 
-In the following example we are using [JWTs](https://jwt.io/introduction), but we could use any other authentication scheme supported by ASP.NET Core.
+**In the following example we are using JWTs, but we could use any other authentication scheme supported by ASP.NET Core.**
 
 1. Install the `Microsoft.AspNetCore.Authentication.JwtBearer` package
 
 ```bash
-dotnet add package Microsoft.AspNetCore.Authentication.JwtBearerAccessing
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 ```
 
 2. Register the JWT authentication scheme
@@ -28,7 +27,7 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearerAccessing
 ```csharp
 public class Startup
 {
-    public void ConfigureServices(IServiceCollection services)Accessing
+    public void ConfigureServices(IServiceCollection services)
     {
         var signingKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes("MySuperSecretKey"));
@@ -50,7 +49,7 @@ public class Startup
 }
 ```
 
-> Note: This is only an exemplary configuration, not intended for production.
+> ⚠️ Note: This is an exemplary configuration, not intended for use in a real world application.
 
 3. Register the `UseAuthentication` middleware with the request pipeline
 
@@ -71,9 +70,9 @@ public class Startup
 }
 ```
 
-TODO: Link to JWT authentication tutorial
+The above takes care of parsing and validating an incoming HTTP request.
 
-The above takes care of parsing and validating an incoming HTTP request. To make the authentication result available to our resolvers we need to complete some additional, Hot Chocolate specific, steps.
+In order to make the authentication result available to our resolvers we need to complete some additional, Hot Chocolate specific, steps.
 
 1. Install the `HotChocolate.AspNetCore.Authorization` package
 
@@ -136,12 +135,27 @@ public class QueryType : ObjectType
 </ExampleTabs.Code>
 <ExampleTabs.Schema>
 
-TODO
+```csharp
+services
+    .AddGraphQLServer()
+    .AddDocumentFromString(@"
+        type Query {
+          me: User
+        }
+    ")
+    .AddResolver("Query", "me", (context) =>
+    {
+        var claimsPrincipal = context.GetGlobalValue<ClaimsPrincipal>(
+                                        nameof(ClaimsPrincipal));
+
+        // Omitted code for brevity
+    });
+```
 
 </ExampleTabs.Schema>
 </ExampleTabs>
 
-After injecting the `ClaimsPrincipal` we can access specific claims of the authenticated user.
+After retrieving the `ClaimsPrincipal` we can access specific claims of the authenticated user.
 
 ```csharp
 var userId = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
